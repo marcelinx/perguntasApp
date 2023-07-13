@@ -6,25 +6,42 @@ main() => runApp(PerguntaApp());
 
 class _PerguntaAppState extends State<PerguntaApp> {
   var _perguntaSelecionada = 0;
+  var _pontuacaoTotal = 0;
   final _perguntas = const [
       {
         'texto': 'quer namorar comigo?',
-        'respostas': ['sim', 'com certeza', 'claro', 'nao']
+        'respostas': [
+          {'texto': 'sim', 'pontuacao': 6}, 
+          {'texto': 'com certeza', 'pontuacao': 10}, 
+          {'texto': 'claro', 'pontuacao': 8}, 
+          {'texto': 'nao', 'pontuacao': 1},
+          ]
       }, 
       {
         'texto': 'quer casar comigo?',
-        'respostas': ['sim', 'com certeza', 'claro', 'nao'],
+        'respostas': [
+          {'texto': 'sim', 'pontuacao': 6}, 
+          {'texto': 'com certeza', 'pontuacao': 10}, 
+          {'texto': 'claro', 'pontuacao': 8}, 
+          {'texto': 'nao', 'pontuacao': 1},
+          ],
       }, 
       {
         'texto': 'como voce deve chamar seu namorado?',
-        'respostas': ['amor', 'vida', 'meu tudo', 'luiz'],
+        'respostas': [
+          {'texto': 'amor', 'pontuacao': 6}, 
+          {'texto': 'vida', 'pontuacao': 8}, 
+          {'texto': 'meu tudão', 'pontuacao': 10}, 
+          {'texto': 'luiz', 'pontuacao': 1},
+          ],
       }
     ];
     
-  void _responder() {
+  void _responder(int pontuacao) {
     if(selectedAnswer) {
       setState(() {
         _perguntaSelecionada++;
+        _pontuacaoTotal += pontuacao;
       });
     }
   }
@@ -47,7 +64,7 @@ class _PerguntaAppState extends State<PerguntaApp> {
           perguntaSelecionada: _perguntaSelecionada,
           quantoResponder: _responder,
         )
-        : Results()
+        : Results(_pontuacaoTotal)
       ),
     );
   }
