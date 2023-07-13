@@ -1,21 +1,13 @@
 import 'package:flutter/material.dart';
 import './question.dart';
 import './answer.dart';
+import 'results.dart';
 
 main() => runApp(PerguntaApp());
 
 class _PerguntaAppState extends State<PerguntaApp> {
   var _perguntaSelecionada = 0;
-
-  void _responder() {
-    setState(() {
-      _perguntaSelecionada++;
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final List<Map<String, Object>> perguntas = [
+  final _perguntas = const [
       {
         'texto': 'quer namorar comigo?',
         'respostas': ['sim', 'com certeza', 'claro', 'nao']
@@ -30,19 +22,37 @@ class _PerguntaAppState extends State<PerguntaApp> {
       }
     ];
 
-    List<String> respostas = perguntas[_perguntaSelecionada].cast()['respostas'];
+  void _responder() {
+    if(selectedAnswer) {
+      setState(() {
+        _perguntaSelecionada++;
+      });
+    }
+  }
+
+  bool get selectedAnswer {
+    return _perguntaSelecionada < _perguntas.length;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+  
+    List<String> respostas = selectedAnswer 
+    ? _perguntas[_perguntaSelecionada].cast()['respostas']:
+    [];
 
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
           title: const Text('Perguntas'),
         ),
-        body: Column(
+        body: selectedAnswer ? Column(
           children: <Widget>[
-            Question(perguntas[_perguntaSelecionada]['texto'].toString()),
+            Question(_perguntas[_perguntaSelecionada]['texto'].toString()),
             ...respostas.map((t) => Answer(t, _responder)).toList(),
           ],
-        ),
+        ) 
+        : Results()
       ),
     );
   }
