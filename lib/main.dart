@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import './question.dart';
-import './answer.dart';
+import './quiz.dart';
 import 'results.dart';
 
 main() => runApp(PerguntaApp());
@@ -21,7 +20,7 @@ class _PerguntaAppState extends State<PerguntaApp> {
         'respostas': ['amor', 'vida', 'meu tudo', 'luiz'],
       }
     ];
-
+    
   void _responder() {
     if(selectedAnswer) {
       setState(() {
@@ -30,28 +29,24 @@ class _PerguntaAppState extends State<PerguntaApp> {
     }
   }
 
-  bool get selectedAnswer {
+    bool get selectedAnswer {
     return _perguntaSelecionada < _perguntas.length;
   }
 
   @override
   Widget build(BuildContext context) {
-  
-    List<String> respostas = selectedAnswer 
-    ? _perguntas[_perguntaSelecionada].cast()['respostas']:
-    [];
 
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
           title: const Text('Perguntas'),
         ),
-        body: selectedAnswer ? Column(
-          children: <Widget>[
-            Question(_perguntas[_perguntaSelecionada]['texto'].toString()),
-            ...respostas.map((t) => Answer(t, _responder)).toList(),
-          ],
-        ) 
+        body: selectedAnswer 
+        ? Quiz(
+          perguntas: _perguntas,
+          perguntaSelecionada: _perguntaSelecionada,
+          quantoResponder: _responder,
+        )
         : Results()
       ),
     );
