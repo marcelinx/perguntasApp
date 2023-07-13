@@ -46,6 +46,13 @@ class _PerguntaAppState extends State<PerguntaApp> {
     }
   }
 
+  void _restartQuiz() {
+    setState(() {
+      _perguntaSelecionada = 0;
+      _pontuacaoTotal = 0;
+    });
+  }
+
     bool get selectedAnswer {
     return _perguntaSelecionada < _perguntas.length;
   }
@@ -64,7 +71,7 @@ class _PerguntaAppState extends State<PerguntaApp> {
           perguntaSelecionada: _perguntaSelecionada,
           quantoResponder: _responder,
         )
-        : Results(_pontuacaoTotal)
+        : Results(_pontuacaoTotal, _restartQuiz)
       ),
     );
   }
